@@ -62,10 +62,15 @@ func (t *Task) Run() {
 
 func start(t time.Time, d time.Duration) (time.Time, *time.Ticker) {
 	// 第一次执行时间
-	if !t.After(time.Now()) {
-		t = t.Add(INTERVAL_PERIOD)
+	if !taskTime.After(time.Now()) {
+		if !taskTime.Add(d).After(time.Now()) {
+			taskTime = time.Now().Add(d)
+		} else {
+			taskTime = taskTime.Add(d)
+		}
 	}
+	fmt.Println(taskTime)
 	// 当前时间和下一次执行时间差
-	diff := t.Sub(time.Now())
-	return t, time.NewTicker(diff)
+	diff := taskTime.Sub(time.Now())
+	return taskTime, time.NewTicker(diff)
 }
