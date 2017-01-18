@@ -73,7 +73,6 @@ func (t *Task) Run() {
 }
 
 func start(t time.Time, d time.Duration) (time.Time, *time.Ticker) {
-	// 第一次执行时间
 	if !t.After(time.Now()) {
 		if !t.Add(d).After(time.Now()) {
 			t = time.Now().Add(d)
@@ -81,7 +80,6 @@ func start(t time.Time, d time.Duration) (time.Time, *time.Ticker) {
 			t = t.Add(d)
 		}
 	}
-	// 当前时间和下一次执行时间差
 	diff := t.Sub(time.Now())
 	return t, time.NewTicker(diff)
 }
